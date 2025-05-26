@@ -1,18 +1,16 @@
-# Welcome to React Router!
+# Filter Array React App
 
-A modern, production-ready template for building full-stack React applications using React Router.
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+A modern, type-safe, and modular filter system for React applications. This project demonstrates a flexible filter list renderer with type inference, custom filter support, and a beautiful UI using React Router and Vite.
 
 ## Features
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- 🚀 Modular filter components (select, checkbox, text, custom)
+- 🧑‍💻 Type-safe state inferred from filter config
+- 🧩 Custom filter support with type inference
+- 💎 Modern UI: filter chips, popovers, and code modals
+- ⚡️ Vite, React Router, and TypeScript
+- 🐳 Docker support
+- 🌐 Ready for GitHub Pages deployment
 
 ## Getting Started
 
@@ -34,7 +32,7 @@ npm run dev
 
 Your application will be available at `http://localhost:5173`.
 
-## Building for Production
+### Building for Production
 
 Create a production build:
 
@@ -42,46 +40,64 @@ Create a production build:
 npm run build
 ```
 
-## Deployment
-
-### Docker Deployment
+### Docker
 
 To build and run using Docker:
 
 ```bash
-docker build -t my-app .
+docker build -t filter-array .
 
 # Run the container
-docker run -p 3000:3000 my-app
+docker run -p 3000:3000 filter-array
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+## Usage Example
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+```tsx
+import { FilterList } from "./filters/FilterList";
+import { createCustomFilter } from "./filters/types";
+import type { FilterStateFromConfig } from "./filters/types";
 
-### DIY Deployment
+const filterConfig = [
+  { type: "select", label: "Gender", name: "gender", properties: { options: [ { text: "Female", value: "female" }, { text: "Male", value: "male" } ] } },
+  { type: "checkbox", label: "Active", name: "active" },
+  { type: "text", label: "Name", name: "name" },
+  createCustomFilter<number>({
+    label: "Custom Age",
+    name: "age",
+    render: (value, onChange) => (
+      <input type="number" value={value ?? ''} onChange={e => onChange(Number(e.target.value))} placeholder="Age" />
+    ),
+  }),
+] as const;
 
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
+const [filters, setFilters] = useState<FilterStateFromConfig<typeof filterConfig>>({});
 
-Make sure to deploy the output of `npm run build`
-
+<FilterList config={filterConfig} value={filters} onChange={setFilters} />
 ```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+
+## GitHub Pages
+
+To deploy to GitHub Pages:
+
+1. Add the following to your `vite.config.ts`:
+
+```ts
+export default defineConfig({
+  base: '/filter-array/', // or your repo name
+  // ...other config
+});
 ```
 
-## Styling
+2. Build and deploy:
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+```bash
+npm run build
+npx gh-pages -d dist
+```
+
+Or use GitHub Actions for CI/CD.
 
 ---
 
-Built with ❤️ using React Router.
+Built with ❤️ by [alexander-shch](https://github.com/alexander-shch) and contributors.
