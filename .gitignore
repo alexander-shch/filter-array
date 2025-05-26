@@ -1,0 +1,63 @@
+.DS_Store
+/node_modules/
+
+# Node
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Env
+.env
+.env.*
+
+# Misc
+coverage/
+*.log
+*.tgz
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
+.vite/
+
+# Mac
+.AppleDouble
+.LSOverride
+
+# Windows
+$RECYCLE.BIN/
+
+# VSCode
+.history/
+
+# Others
+*.local
+
+# Public
+public/*.map
+
+# React Router
+/.react-router/
+/build/
